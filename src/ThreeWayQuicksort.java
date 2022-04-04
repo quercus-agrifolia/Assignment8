@@ -3,9 +3,17 @@ import java.util.Scanner;
 final class ThreeWayQuicksort{
     private ThreeWayQuicksort(){}
 
+    //recursive
+    public static void sort(Comparable[] a, int lo, int hi, int pivotChoice){
+        if (hi <= lo) return;   //base case: return if partitioned sub array has one element (it's sorted)
+        int pivot = partition(a, lo, hi, pivotChoice);
+        sort(a, lo, pivot - 1, pivotChoice); //sort left
+        sort(a, pivot + 1, hi, pivotChoice); //sort right
+    }
+
     //3-way partition, does the comparing of items
-    public static Comparable[] partition(Comparable[] a, int lo, int hi){
-        int pivot = getPivot(a, lo, hi);
+    public static int partition(Comparable[] a, int lo, int hi, int pivotChoice){
+        int pivot = getPivot(a, lo, hi,pivotChoice);
         int leftIndex = lo;
         int rightIndex = hi + 1;
         //make sure pivot is the first element
@@ -20,28 +28,12 @@ final class ThreeWayQuicksort{
             swap(a, leftIndex, rightIndex);
         }
         swap(a, pivot, rightIndex); //put pivot in its true place
-        return a;
+        return rightIndex;
     }
 
-    //recursive
-    public static void sort(Comparable[] a){
-
-    }
-    private Comparable[] sort(Comparable[] a, int lo, int hi){
-        return a;
-    }
-
-    public static int getPivot(Comparable[] a, int lo, int hi){
+    public static int getPivot(Comparable[] a, int lo, int hi, int pivotChoice){
         int pivot = 0;
         int median = lo + ((hi - lo)/2);
-        int pivotChoice;
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println("For first element pivot, enter 1");
-        System.out.println("For median element pivot enter 2");
-        System.out.println("For left sub array median enter 3");
-        System.out.println("For right sub array median enter 4");
-        System.out.println("\n");
-        pivotChoice = keyboard.nextInt();
         //use switch case?
         switch (pivotChoice) {
             //i. pivot is first item or any random item
@@ -61,7 +53,7 @@ final class ThreeWayQuicksort{
                 System.out.println("pivot is right median");
                 break;
         }
-        System.out.println("pivot element: "+a[pivot]);
+
         return pivot;
     }
 
@@ -89,9 +81,18 @@ final class ThreeWayQuicksort{
             array[i] = string.charAt(i);
         }
 
-        Comparable[] partitionedArray = ThreeWayQuicksort.partition(array, 0, 14);
+        int pivotChoice;
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("For first element pivot, enter 1");
+        System.out.println("For median element pivot enter 2");
+        System.out.println("For left sub array median enter 3");
+        System.out.println("For right sub array median enter 4");
+        System.out.println("\n");
+        pivotChoice = keyboard.nextInt();
+
+        ThreeWayQuicksort.sort(array, 0, 14, pivotChoice);
         for (int i = 0; i < string.length(); i++) {
-            System.out.println(partitionedArray[i]);
+            System.out.println(array[i]);
         }
     }
 }
