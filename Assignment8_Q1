@@ -1,0 +1,37 @@
+Assignment 8
+Kristina Chan
+
+Question 1
+
+M Y P R I O * R * * I * T * Y * * * Q U E * * * U * E *
+
+1) M
+2) Y M
+3) Y M P
+4) Y R P M
+5) Y R P M I
+6) Y R O M I P
+7) delMax = Y  --> R P O M I  
+8) R P R M I O
+9) delMax = R --> R P O M I 
+10) delMax = R --> P M O I
+11) P M O I I
+12) delMax = P --> O M I I
+13) T O I I M
+14) delMax = T --> O M I I
+15) Y O I I M
+16) delMax = Y --> O M I I
+17) delMax = O --> M I I
+18) delMax = M --> I I
+19) Q I I
+20) U Q I I
+21) U Q I I E
+22) delMax = U --> Q I I E
+22) delMax = Q --> I E I
+23) delMax = I --> I E
+24) U E I
+25) delMax = I --> I E
+26) I E E
+27) delMax = I --> E E
+
+
