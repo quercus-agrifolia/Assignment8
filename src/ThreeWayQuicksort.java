@@ -1,18 +1,37 @@
 import java.util.Scanner;
 
-public class ThreeWayQuicksort<Item extends Comparable>{
+final class ThreeWayQuicksort{
+    private ThreeWayQuicksort(){}
 
     //3-way partition, does the comparing of items
-    private int partition(){
-        return 0;
-    }
-
-    //recursive
-    public Item[] sort(Item[] a){
+    public static Comparable[] partition(Comparable[] a, int lo, int hi){
+        int pivot = getPivot(a, lo, hi);
+        int leftIndex = lo;
+        int rightIndex = hi + 1;
+        //make sure pivot is the first element
+        if(pivot != lo) {
+            swap(a, pivot, lo);
+            pivot = lo;
+        }
+        while (true) {
+            while (a[++leftIndex].compareTo(a[pivot]) < 0) if(leftIndex == hi) break;//scan l-r, compare to pivot, if  sorted, break
+            while (a[--rightIndex].compareTo(a[pivot]) > 0) if (rightIndex == lo) break; //scan r-l, compare to pivot, if sorted, break
+            if (leftIndex >= rightIndex) break;  //if left and right indices cross exit loop
+            swap(a, leftIndex, rightIndex);
+        }
+        swap(a, pivot, rightIndex); //put pivot in its true place
         return a;
     }
 
-    public int getPivot(Item[] a, int lo, int hi){
+    //recursive
+    public static void sort(Comparable[] a){
+
+    }
+    private Comparable[] sort(Comparable[] a, int lo, int hi){
+        return a;
+    }
+
+    public static int getPivot(Comparable[] a, int lo, int hi){
         int pivot = 0;
         int median = lo + ((hi - lo)/2);
         int pivotChoice;
@@ -46,7 +65,7 @@ public class ThreeWayQuicksort<Item extends Comparable>{
         return pivot;
     }
 
-    public Item[] insertionSort(Item[] a, int lo, int hi){
+    public static Comparable[] insertionSort(Comparable[] a, int lo, int hi){
         for(int i = 1; i < hi; i++){
             for(int j = i; j > 0 && (a[j].compareTo(a[j - 1]) < 0); j--){
                     swap(a, j, j - 1);
@@ -54,24 +73,25 @@ public class ThreeWayQuicksort<Item extends Comparable>{
         }
         return a;
     }
-    private void swap(Item[] a, int index1, int index2){
-        Item temp1 = a[index1];
+    private static void swap(Comparable[] a, int index1, int index2){
+        Comparable temp1 = a[index1];
         a[index1] = a[index2];
         a[index2] = temp1;
+        System.out.println(a[index1]+" swapped with "+a[index2]);
     }
 
+    //todo just made everything static was that a good idea I don't know?????
+
     public static void main(String[] args) {
-        ThreeWayQuicksort<Character> QS = new ThreeWayQuicksort<>();
-        String string = "QUICKSORTEXAMPLE";
-        Character[] array = new Character[16];
+        String string = "ILOVEALGORITHMS";
+        Character[] array = new Character[15];
         for (int i = 0; i < string.length(); i++) {
             array[i] = string.charAt(i);
+        }
 
+        Comparable[] partitionedArray = ThreeWayQuicksort.partition(array, 0, 14);
+        for (int i = 0; i < string.length(); i++) {
+            System.out.println(partitionedArray[i]);
         }
-        Character[] sortedArray = QS.insertionSort(array, 1, 16);
-        for (int i = 0; i < 16; i++) {
-            System.out.println(sortedArray[i]);
-        }
-        QS.getPivot(array, 1, 16);
     }
 }
