@@ -28,27 +28,31 @@ final class ThreeWayQuicksort{
 
     //3-way partition, does the comparing of items
     private static int partition(Comparable[] a, int lo, int hi, int pivotChoice){
-        int pivot = getPivot(a, lo, hi,pivotChoice);
-        System.out.println("inside partition() pivot: "+pivot);
+        int pivotIndex = getPivot(a, lo, hi,pivotChoice);
+        Comparable pivot;
+        System.out.println("inside partition() pivot: "+pivotIndex);
 
         //make sure pivot is the first element
-        if(pivot != lo) {
-            swap(a, pivot, lo);
-            pivot = lo;
-        }
+        if(pivotIndex != lo) swap(a, pivotIndex, lo);
+        pivot = a[lo];
+
         int lt = lo;
         int gt = hi;
         int i = lt + 1;
 
         while(i <= gt){
-            int comparison = a[i].compareTo(a[pivot]);
+            int comparison = a[i].compareTo(pivot);
+            System.out.println("a[lt] = "+a[lt]+" and a[i] = "+a[i]);
             if(comparison < 0){ //if a[i]<a[pivot], swap i with pivot, and keep scanning down sub array
                 swap(a, lt++, i++);
             }
-            if(comparison > 0){ //if a[i]>a[pivot], swap i with gt and decrement gt
+            else if(comparison > 0){ //if a[i]>a[pivot], swap i with gt and decrement gt
                 swap(a, i, gt--);
             }
-            else i++;   //else a[i] and a[pivot] are equal, so just increment i
+            else {
+                System.out.println(a[i]+" equal to a[lt]: "+a[lt]);
+                i++;   //else a[i] and a[pivot] are equal, so just increment i
+                }
         }
         return gt;
 
@@ -100,14 +104,50 @@ final class ThreeWayQuicksort{
     }
 
     public static void main(String[] args) {
-        Random rng = new Random(100);
-        int length = (int) Math.pow(10, 3);
-        Double[] doubleArray = new Double[length];
+        Random rng = new Random(33);
 
-        for(int i = 0; i < length; i ++){
-            doubleArray[i] = rng.nextDouble();
-        }
-        ThreeWayQuicksort.sort(doubleArray, 0, length - 1, 1);
+        //        int length = (int) Math.pow(10, 3);
+//        Double[] thirdPowerArray = new Double[length];
+//        for(int i = 0; i < length; i ++){
+//            thirdPowerArray[i] = rng.nextDouble();
+//        }
+//        long start = System.nanoTime();
+//        ThreeWayQuicksort.sort(thirdPowerArray, 0, length - 1, 1);
+//        long end = System.nanoTime();
+//        System.out.println("Time to sort 10^3 elements: " + (end - start) + " nanoseconds");
+//
+//
+//        length = (int) Math.pow(10, 4);
+//        Double[] fourthPowerArray = new Double[length];
+//        for(int i = 0; i < length; i ++){
+//            fourthPowerArray[i] = rng.nextDouble();
+//        }
+//        start = System.nanoTime();
+//        ThreeWayQuicksort.sort(fourthPowerArray, 0, length - 1, 1);
+//        end = System.nanoTime();
+//        System.out.println("Time to sort 10^4 elements: " + (end - start) + " nanoseconds");
+//
+//
+//        length = (int) Math.pow(10, 5);
+//        Double[] fifthPowerArray = new Double[length];
+//        for(int i = 0; i < length; i ++){
+//            fifthPowerArray[i] = rng.nextDouble();
+//        }
+//        start = System.nanoTime();
+//        ThreeWayQuicksort.sort(fifthPowerArray, 0, length - 1, 1);
+//        end = System.nanoTime();
+//        System.out.println("Time to sort 10^5 elements: " + (end - start) + " nanoseconds");
+//
+//
+//        length = (int) Math.pow(10, 6);
+//        Double[] sixthPowerArray = new Double[length];
+//        for(int i = 0; i < length; i ++){
+//            sixthPowerArray[i] = rng.nextDouble();
+//        }
+//        start = System.nanoTime();
+//        ThreeWayQuicksort.sort(sixthPowerArray, 0, length - 1, 1);
+//        end = System.nanoTime();
+//        System.out.println("Time to sort 10^6 elements: " + (end - start) + " nanoseconds");
 
 //        Double[][] arrays = new Double[4][];
 //
