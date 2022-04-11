@@ -15,15 +15,15 @@ final class ThreeWayQuicksort{
             insertionSort(a, lo, hi);
             return;
         }
-        if(hi <= lo) return;
+        if(hi <= lo) return;    //if hi and lo pointers cross, the sub array has been scanned
 
         int pivot = partition(a, lo, hi, pivotChoice);
 
         System.out.println("pivot = " + pivot);
         System.out.println("next call1: lo: "+lo + " hi: " + (pivot-1));
-        sort(a, lo, pivot - 1, pivotChoice); //sort left
+        sort(a, lo, pivot - 1, pivotChoice); //sort left sub array
         System.out.println("next call2: lo: "+(pivot+1) + " hi: " + hi);
-        sort(a, pivot + 1, hi, pivotChoice); //sort right
+        sort(a, pivot + 1, hi, pivotChoice); //sort right sub array
     }
 
     //3-way partition, does the comparing of items
@@ -36,29 +36,22 @@ final class ThreeWayQuicksort{
             swap(a, pivot, lo);
             pivot = lo;
         }
+        int lt = lo;
+        int gt = hi;
+        int i = lt + 1;
 
-        for(int i = 0; i < 10; i++){
-            System.out.println(a[i]);
-        }
-
-        int leftIndex = lo + 1;
-        int rightIndex = hi;
-
-        while (true) {
-            while (a[leftIndex].compareTo(a[pivot]) < 0) {
-                leftIndex++;
-                if(leftIndex == hi) break;//scan l-r, compare to pivot, if  sorted, break
+        while(i <= gt){
+            int comparison = a[i].compareTo(a[pivot]);
+            if(comparison < 0){ //if a[i]<a[pivot], swap i with pivot, and keep scanning down sub array
+                swap(a, lt++, i++);
             }
-            while (a[rightIndex].compareTo(a[pivot]) > 0){
-                rightIndex--;
-                if (rightIndex == lo) break; //scan r-l, compare to pivot, if sorted, break
+            if(comparison > 0){ //if a[i]>a[pivot], swap i with gt and decrement gt
+                swap(a, i, gt--);
             }
-            if (leftIndex >= rightIndex) break;  //if left and right indices cross exit loop
-            swap(a, leftIndex, rightIndex);
+            else i++;   //else a[i] and a[pivot] are equal, so just increment i
         }
-        swap(a, pivot, rightIndex); //put pivot in its true place
+        return gt;
 
-        return rightIndex;
     }
 
     private static int getPivot(Comparable[] a, int lo, int hi, int pivotChoice){
@@ -107,24 +100,15 @@ final class ThreeWayQuicksort{
     }
 
     public static void main(String[] args) {
-        //TODO make this whole thing 3-way quicksort
         Random rng = new Random(100);
+        int length = (int) Math.pow(10, 3);
+        Double[] doubleArray = new Double[length];
 
-        Integer[] array = new Integer[10];
-        for(int i = 0; i < 10; i++){
-            array[i] = rng.nextInt(10);
+        for(int i = 0; i < length; i ++){
+            doubleArray[i] = rng.nextDouble();
         }
-        for(int i = 0; i < 10; i++){
-            System.out.println(array[i]);
-        }
+        ThreeWayQuicksort.sort(doubleArray, 0, length - 1, 1);
 
-        ThreeWayQuicksort.sort(array, 0, 9, 3);
-
-        for(int i = 0; i < 10; i++){
-            System.out.println(array[i]);
-        }
-//
-//
 //        Double[][] arrays = new Double[4][];
 //
 //        for(int j = 0; j < 4; j++) {
@@ -132,7 +116,6 @@ final class ThreeWayQuicksort{
 //            int length = (int) Math.pow(10, j + 3);
 //            for (int i = 0; i < length - 1; i++) {
 //                arrays[j][i] = rng.nextDouble();
-//                System.out.println(arrays[j][i]);
 //            }
 //        }
 //
