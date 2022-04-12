@@ -10,7 +10,6 @@ final class ThreeWayQuicksort{
     }
     //recursive
     private static void sort(Comparable[] a, int lo, int hi, int pivotChoice){
-        System.out.println("new sort call");
         if ((hi - lo) <= 30) {  //base case: return if partitioned sub array has 30 elements or less
             insertionSort(a, lo, hi);
             return;
